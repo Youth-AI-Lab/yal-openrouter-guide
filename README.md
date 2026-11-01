@@ -528,9 +528,9 @@ must be gone. If you still see it, the rule is off.
 
 From then on, `workshop`, `replay`, `score`, `openwebui` and `./sorter` send this with each request:
 one European endpoint (`mistral/eu`), zero data retention, no second choice. An endpoint is one
-company running one model in one place. If it cannot serve the model, the request fails. The first
-real run below used `openwebui` in kit mode, with Mistral Small 3.2: `openwebui` with
-`mistral-small-2603`, and class mode with `--europe`, are (not tested).
+company running one model in one place. If it cannot serve the model, the request fails. Class
+mode with `--europe` ran with a real key, but only as far as one question to each base model, asked
+by the administrator: no group, no phone, no real Codespace.
 
 > [!WARNING]
 > **`--europe` chooses where the model runs, not where OpenRouter handles the request.** OpenRouter
@@ -770,7 +770,13 @@ in front, on a copy of the kit prepared by `workshop-start 5`:
   on a fake OpenRouter only;
 - a second real run on 2026-11-01, one run on 2 cores, with `mistralai/mistral-small-2603` and
   `mistral/eu` alone: `replay B 3 7 10`, `replay C`, `replay D 1 8`, `score C --auto` and
-  `./sorter compare`. 100 of 100 requests answered with HTTP 200 and named Mistral.
+  `./sorter compare`. 100 of 100 requests answered with HTTP 200 and named Mistral;
+- a third real run on 2026-11-01, one run on 2 cores, `workshop-login --europe` with no other option:
+  `replay bare`, `replay A`, `replay E 1 3`, all 11 questions of `replay B` (26 s, $0.01 shown, about
+  70,000 tokens each), `./sorter compare` (32 of 32, no emergency missed), Open WebUI in kit mode
+  with `replay RAG 1 7`, then Open WebUI in class mode: `openwebui start` and `openwebui share open`
+  without the warning, and one real question to each of the two base models. 78 of 78 requests
+  answered with HTTP 200 and named Mistral. No ERROR in the answers. $0.03 for the whole run.
 
 The image number that carries these commands: TO BE COMPLETED.
 
@@ -799,13 +805,13 @@ The image number that carries these commands: TO BE COMPLETED.
 - `google/gemma-4-26b-a4b-it:free` at another moment: its 429 came from the company that runs it.
 - The same scores replayed several times, to know how far a score moves.
 - A small real balance, a real 429 in a session, a real key limit, auto top-up.
-- Open WebUI in class mode with a real OpenRouter key, and Open WebUI with the default DeepSeek
-  model or with `mistral-small-2603`.
+- Open WebUI with the default DeepSeek model.
 - The ZDR settings, **Zero retention only**, `eu.openrouter.ai` with the Business plan.
 - A whole session after `workshop-login --europe` with a real key, and the four other European
   endpoints.
-- Class mode with `--europe` with a real key, and a class-mode chatbot in a 32k window.
-- `mistral-small-2603` in modes bare, A and E, and all 11 questions of mode B.
+- Class mode with `--europe` with participants: their accounts, phones, a chatbot built by hand and
+  its move between models, the public link of a real Codespace. A class-mode chatbot in a 32k window.
+- The Wildfire RAG models of `openwebui sizes` with `mistral-small-2603`.
 - A question typed in an OpenCode screen opened before the rule changed. The line that warns of it
   was seen, on a fake OpenRouter.
 - A human reading of a sample of the scores.
