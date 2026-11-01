@@ -785,7 +785,7 @@ in front, on a copy of the kit prepared by `workshop-start 5`:
   without the warning, and one real question to each of the two base models. 78 of 78 requests
   answered with HTTP 200 and named Mistral. No ERROR in the answers. $0.03 for the whole run.
 
-The image number that carries these commands: TO BE COMPLETED.
+The image that carries these commands: 2026.10.43.
 
 ### Notes on the measures
 
