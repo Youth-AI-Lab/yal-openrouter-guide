@@ -107,17 +107,24 @@ Do this part on your own, never with your screen projected.
    Keep a credit limit on every key ([Part 3](#part-3---one-key-per-pair)). Auto top-up during a
    session: (not tested).
 
-**What a session costs on this route: TO BE COMPLETED.** No full session was measured.
-[Part 6](#part-6---the-models-on-2026-11-01) gives the costs that were.
+**What a session costs on this route: an estimate.** No full session was measured. In our runs, a
+`replay` of 11 questions showed $0.01 to $0.02. We assume a pair asks about as much as four replays
+in one session, 44 questions: about $0.08. The worst case is all 44 in mode B at list price, about
+$0.51 (70,000 tokens at $0.165 per million, with `mistral-small-2603`). So we suggest a limit of **$1
+per key for one session**, and **$3 for a key that follows the six workshops**: only workshop 2
+sends the whole kit. Buy credits for the number of pairs, plus the fee. These are estimates from
+our runs, not a measure of a session. [Part 6](#part-6---the-models-on-2026-11-01) gives the costs
+that were measured.
 
 ---
 
 ## Part 3 - One key per pair
 
 1. On the page **Keys**, choose **Create API Key**. Name it after the pair.
-2. Under **Key limit**, set a **Credit limit**, in dollars. You choose how often it resets: daily,
-   weekly, monthly, or never. OpenRouter recommends a limit on every key. You may also choose no
-   limit: do not.
+2. Under **Key limit**, set a **Credit limit**, in dollars. We suggest $1 for one session, $3 for the
+   six workshops ([our estimate](#part-2---an-account-with-credits)). You choose how often it
+   resets: daily, weekly, monthly, or never. Choose **never**: the limit then caps the whole use of
+   the key. OpenRouter recommends a limit on every key. You may also choose no limit: do not.
 3. Copy the key. It starts with `sk-or-`.
 4. Do it again for the next pair.
 5. Give each pair its key in private, in a direct message or on paper. Never show a key on the
