@@ -191,6 +191,10 @@ That warning is explained in [Part 8](#part-8---data-and-young-people).
 
 In the Open WebUI guide, some of these lines end with other words, written for one person alone.
 
+After `workshop-login --europe`, the line about credits stops at `Add credits.`, because no free
+model runs in Europe. The lines that offer `workshop-login --models openrouter` name one Mistral model
+instead, never the model that just failed.
+
 ### Choose another model
 
 ```bash
@@ -233,8 +237,9 @@ WebUI is running, you see `Open WebUI keeps the old key until you type: openwebu
 | `./sorter compare` (workshop 6) | `claude-haiku-5-5` | `mistralai/mistral-small-3.2-24b-instruct` |
 
 `./sorter claude` still works as another name for `./sorter compare`. With an OpenRouter key, it
-does not call Claude. With `workshop-login --europe`, every line of the last column is Mistral Small
-by default ([Part 8](#required-hosted-in-europe)).
+does not call Claude. With `workshop-login --europe`, the last column changes: the chatbot and the
+first model of class mode are `mistralai/mistral-small-2603`, and the judge, the second model and the
+sorter are `mistralai/mistral-small-3.2-24b-instruct` ([Part 8](#required-hosted-in-europe)).
 
 **What differs from the Anthropic route:**
 
@@ -261,6 +266,7 @@ D and E ran on 11 questions (22 points), and B on 3 (6 points).
 |---|---|---|---|---|---|---|---|---|
 | `deepseek/deepseek-v4-flash` | 2/22 | 11/22 | 6/6 | 20/22 | 19/22 | 19/22 | 0 | credits |
 | `mistralai/mistral-small-3.2-24b-instruct` | 10/22 | 8/22 | 4/6 | 16/22 | 14/22 | 14/22 | 0 | credits |
+| `mistralai/mistral-small-2603`, at `mistral/eu` alone | not run | not run | 3/6 | 15/22 | 4/4, 2 questions | not run | 0 | credits |
 | `google/gemini-2.5-flash-lite` | 10/20 | 12/22 | 5/6 | 12/20 | 1/2 | 9/16 | 8 of 51 | credits |
 | `google/gemma-4-26b-a4b-it:free` | 8/22 | 12/22 | stopped | stopped | stopped | stopped | 429 from C on | nothing, inside the quota |
 | `cohere/north-mini-code:free` | stopped | stopped | stopped | stopped | stopped | stopped | 429 on 17 of 18 answers | nothing, inside the quota |
@@ -270,10 +276,18 @@ One score does not rank two models: on a second run of mode D, the same judge ga
 22/22 instead of 19/22. A total below 22 means that fewer answers got a score. "Stopped" means that
 `replay` stopped after three errors in a row: these two lines do not score the free models.
 
+The line of `mistral-small-2603` is one run on 2026-11-01, through `workshop-login --europe`, on the
+route for young people. The others were not pinned to `mistral/eu`. In B its questions were 3, 7 and
+10 (1, 2 and 0 points), where the line of Mistral Small 3.2 used other questions. `replay B 3 7 10`
+took 10 s, at about 70,000 tokens per question, and showed $0.01. `replay C` took 1 min 06 and showed
+$0.01. `replay D 1 8` called the fire danger tool. Two runs of one model differed by up to 3 points of
+22, so these lines rank nothing.
+
 | Model | Price in/out, per million tokens | Window | Companies under ZDR (see [Part 8](#what-zero-data-retention-means)) | In Europe |
 |---|---|---|---|---|
 | `deepseek/deepseek-v4-flash` | about $0.09/$0.18 | 1M | 12 of 17 | none |
 | `mistralai/mistral-small-3.2-24b-instruct` | $0.075/$0.20 at the cheapest company, $0.10/$0.30 in Europe | 128k to 256k, 32k in Europe | 4 of 4 | 1 |
+| `mistralai/mistral-small-2603` | $0.165/$0.66 in Europe | 262k in Europe | 3 of 4 routes, all Mistral | 1 |
 | `google/gemini-2.5-flash-lite` | $0.10/$0.40 | 1M | 0 of 1 (55 days) | none |
 | `google/gemma-4-26b-a4b-it:free` | free | 262k | 0 of 1 (55 days) | none |
 | `cohere/north-mini-code:free` | free | 256k | 0 of 1 (30 days) | none |
@@ -285,6 +299,8 @@ and as judge it left one answer without a score, against 27 for Gemini 2.5 Flash
 run: a tendency, not a ranking. The cost is time: 3 to 4.5 minutes for a `replay` of 11 questions in
 bare, C, D and E, against 32 to 53 seconds for Mistral Small. Mistral Small sorted all 32 test
 messages and missed no urgent one, so it is the sorter. It is also the second model of class mode.
+With `--europe`, the chatbot is `mistral-small-2603`: Mistral Small 3.2 cannot run mode B there, and
+this model can.
 
 The second run of mode D took 2 min 43 and showed $0.02 for 11 answers. `score D --auto` then gave
 21/22 with DeepSeek as judge, for $0.0008.
@@ -298,11 +314,15 @@ is only the yardstick of these measures: the route of this guide does not use it
 | `google/gemini-2.5-flash-lite` | 133/154 (86 %) | 20 | 1 | 27 | $0.039 |
 | `mistralai/mistral-small-3.2-24b-instruct` | 135/181 (75 %) | 44 | 2 | 0 | TO BE COMPLETED |
 
+On the 11 answers of `mistral-small-2603` in mode C, `score C --auto` with Mistral Small 3.2 as judge
+gave 17/22, for $0.0007, where `claude-haiku-5-5` gave 15/22. That is one run.
+
 The next table shows `./sorter compare` with each model, on the 32 test messages of workshop 6.
 
 | `./sorter compare`, 32 test messages, first run | Sorted right | Urgent messages missed | Time | Cost |
 |---|---|---|---|---|
 | `mistralai/mistral-small-3.2-24b-instruct` | 32/32 | 0 | 18 s | $0.0003 |
+| `mistralai/mistral-small-2603`, at `mistral/eu` alone (`WORKSHOP_SORTER_MODEL`) | 32/32 | 0 | 20 s | $0.0003 |
 | `deepseek/deepseek-v4-flash` | 30/32 | 1 | 38 s | $0.0002 |
 | `google/gemini-2.5-flash-lite` | stopped at 6 messages: `Provider returned error`, cause not established | - | - | - |
 
@@ -350,7 +370,7 @@ OpenRouter's rate limits as "free-model request caps and DDoS protection". It sa
 variant of a model "has no platform-level request cap". So a 429 on a paid model should come from
 the company that runs it, not from OpenRouter. A real 429 on a paid model: (not tested).
 
-With `workshop-login --europe`, one company serves Mistral Small and there is no second choice. A 429
+With `workshop-login --europe`, Mistral alone serves the model and there is no second company. A 429
 from Mistral reaches the group directly ([Part 7](#429-too-many-requests)).
 
 ---
@@ -390,8 +410,14 @@ During the session:
 
 3. **It is a paid model:** wait a minute and type the same command again. If it does not pass,
    choose `mistralai/mistral-small-3.2-24b-instruct` with `workshop-login --model`.
-4. **`--europe` is on:** wait a minute and try again. No other model is the fallback. Do not type
-   `--no-europe` during a session with young people.
+4. **`--europe` is on:** wait a minute and try again. If it does not pass, change to the other
+   Mistral model: the rule stays the same, and Mistral serves both. With
+   `workshop-login --model mistralai/mistral-small-3.2-24b-instruct`, mode B stops running
+   ([Part 8](#required-hosted-in-europe)). Back: `workshop-login --model mistralai/mistral-small-2603`.
+   In class mode, your chatbots do not come back with it: they stay on Mistral Small 3.2, and
+   `openwebui start` names them. For each one: **Workspace → Models**, open the chatbot, choose
+   `mistralai/mistral-small-2603` in **Base Model (From)**, and click **Save & Update**.
+   Do not type `--no-europe` during a session with young people.
 5. **Many pairs at once:** let them start `replay` one after the other, or on a few questions:
    `replay D 8 11`.
 
@@ -429,8 +455,8 @@ key: raise it on OpenRouter's website.
 
 Wait a few minutes. If it stays, choose another model with `workshop-login --model`. If you turned
 on the settings of [Part 8](#part-8---data-and-young-people), they may leave no company for the
-model: read the list of the model's companies on its page. With `--europe` on and young people, do
-not change the model: wait, or stop the chatbot for this session.
+model: read the list of the model's companies on its page. With `--europe` on and young people,
+wait, change to the other Mistral model as in the steps above, or stop the chatbot for this session.
 
 ---
 
@@ -440,13 +466,13 @@ not change the model: wait, or stop the chatbot for this session.
 > **With young people and OpenRouter, type `workshop-login --europe`.**
 >
 > Requests then go only to Mistral, hosted in Europe, with zero data retention. The default model
-> is Mistral Small. This is the rule of the Youth AI Lab project for this route. In class mode,
+> is `mistralai/mistral-small-2603`. This is the rule of the Youth AI Lab project for this route. In class mode,
 > `workshop-login`, `openwebui start` and `openwebui share open` print it until it is on.
 >
-> **Keep Mistral Small.** `--europe` allows Mistral alone. Other companies run models in Europe, but
-> the terms of Amazon and Azure were not read, and Google's may exclude this use
-> ([item 4](#what-no-setting-removes)). Mistral's were read, and they ask for parental consent
-> ([item 5](#what-no-setting-removes)).
+> **Stay with Mistral.** `--europe` allows Mistral alone, so any model it accepts stays with terms
+> already read. Other companies run models in Europe, but the terms of Amazon and Azure were not
+> read, and Google's may exclude this use ([item 4](#what-no-setting-removes)). Mistral's were read,
+> and they ask for parental consent ([item 5](#what-no-setting-removes)).
 >
 > It does not keep everything in Europe ([what it covers](#required-hosted-in-europe)), and it does
 > not lift [what no setting removes](#what-no-setting-removes). Read both before you open anything
@@ -488,13 +514,13 @@ workshop-login --europe
 Press Enter alone to keep the saved key. In class mode, you must see:
 
 ```text
-Key OK (OpenRouter, model mistralai/mistral-small-3.2-24b-instruct, hosted in Europe). You can start: openwebui start
+Key OK (OpenRouter, model mistralai/mistral-small-2603, hosted in Europe). You can start: openwebui start
 ```
 
 In the kit, you must see:
 
 ```text
-Key OK (OpenCode, OpenRouter, model openrouter/mistralai/mistral-small-3.2-24b-instruct, hosted in Europe). You can start: workshop bare
+Key OK (OpenCode, OpenRouter, model openrouter/mistralai/mistral-small-2603, hosted in Europe). You can start: workshop bare
 ```
 
 **Before `openwebui share open`:** type `openwebui start`. The line `Warning: with young people...`
@@ -502,8 +528,9 @@ must be gone. If you still see it, the rule is off.
 
 From then on, `workshop`, `replay`, `score`, `openwebui` and `./sorter` send this with each request:
 one European endpoint (`mistral/eu`), zero data retention, no second choice. An endpoint is one
-company running one model in one place. If it cannot serve the model, the request fails. The real run below
-used `openwebui` in kit mode: class mode with `--europe` is (not tested).
+company running one model in one place. If it cannot serve the model, the request fails. The first
+real run below used `openwebui` in kit mode, with Mistral Small 3.2: `openwebui` with
+`mistral-small-2603`, and class mode with `--europe`, are (not tested).
 
 > [!WARNING]
 > **`--europe` chooses where the model runs, not where OpenRouter handles the request.** OpenRouter
@@ -536,33 +563,48 @@ right, with no emergency missed. The whole run cost $0.0065. DeepSeek v4 Flash, 
 company, was refused. The replies named Mistral, and no region. The place comes from OpenRouter's
 list: no call and no independent proof confirmed where a model runs.
 
+A later run the same day used `workshop-login --europe --model mistralai/mistral-small-2603`, with
+`mistral/eu` as the only endpoint: `replay` in modes B, C and D, `score` and `./sorter compare`. All
+100 requests were answered with HTTP 200, carried the rule, and named Mistral: 89 on
+`mistral-small-2603`, and 11 judge calls on Mistral Small 3.2. The run cost $0.037. Results:
+[Part 6](#part-6---the-models-on-2026-11-01).
+
 **What changes when it is on:**
 
-- **The model.** You move to `mistralai/mistral-small-3.2-24b-instruct`. Without young people, `--model`
-  can name another model. If that one has no such company, the command says so.
-- **The window** (how much the model can read at once). Mistral Small has 32k tokens at `mistral/eu`,
-  against 128k to 256k at the three other companies, none listed in Europe. OpenRouter's list of
-  models says 256,000 for this model, so `--europe` saves the size from the list of its companies.
-  A class-mode chatbot with a long conversation in this window: (not tested).
-- **Mode B.** Mode B sends the whole kit at once. That is about 100k tokens on Claude's gauge, and
-  no count exists for Mistral. In the real run, OpenCode failed before the model's first word. The
-  commands refuse mode B for any model with too small a window, with `--europe` or without it:
+- **The model.** Turning the rule on moves you to `mistralai/mistral-small-2603`. After that,
+  `--model` can name another Mistral model, and it stays. If Mistral does not serve it, the command
+  says so and names a model that works.
+- **The window** (how much the model can read at once). `mistral-small-2603` has 262k tokens at
+  `mistral/eu`. Mistral Small 3.2 has 32k there, against 128k to 256k at the three other companies,
+  none listed in Europe. OpenRouter's list of models says 256,000 for Mistral Small 3.2, so `--europe`
+  saves the size from the list of the model's companies. A class-mode chatbot with a long conversation
+  in 32k: (not tested).
+- **Mode B.** Mode B sends the whole kit at once. It runs with `mistral-small-2603`
+  ([Part 6](#part-6---the-models-on-2026-11-01)). With Mistral Small 3.2 at `mistral/eu` it failed
+  before the model's first word: this was measured. The commands refuse mode B for any model with too
+  small a window, with `--europe` or without it:
 
   ```text
   Mode B sends the whole kit at once, and this model reads 32,768 tokens at most.
-  This mode cannot run with it. Skip mode B and go on with the next part of today's page.
+  This mode cannot run with it. Choose a model with a larger window: workshop-login --model mistralai/mistral-small-2603
   ```
 
-  So with Mistral Small, skip mode B: the pages of workshops 2 and 3 say what to do. A European model
-  with a larger window would pass this check, but none was tried in mode B (not tested).
-- **The scores.** Our runs were not pinned to `mistral/eu`, so its scores in
-  [Part 6](#part-6---the-models-on-2026-11-01) are not scores in Europe.
-- **The judge.** The usual judge has no company in Europe, so `score` uses Mistral Small, unless
-  `WORKSHOP_JUDGE_MODEL` names another model. It gave the same note as `claude-haiku-5-5` on 135 of
-  181 notes (75 %), against 150 of 180 (83 %) for the usual judge.
-- **The cost shown.** The saved price comes from OpenRouter's list of models. Mistral Small costs
-  $0.10/$0.30 per million tokens (in/out) at `mistral/eu`, against $0.075/$0.20 at the cheapest
-  company, so OpenCode can show too low a cost.
+  Without `--europe`, the line ends with `workshop-login --models openrouter`.
+- **The scores.** Only the line of `mistral-small-2603` in
+  [Part 6](#part-6---the-models-on-2026-11-01) was pinned to `mistral/eu`. The other scores are not
+  scores in Europe.
+- **The judge.** The usual judge has no company in Europe, so `score` stays on Mistral Small 3.2,
+  unless `WORKSHOP_JUDGE_MODEL` names another model. Its 32k are enough for a judge's prompt: this
+  was measured. It gave the same note as `claude-haiku-5-5` on 135 of 181 notes (75 %), against 150 of
+  180 (83 %) for the usual judge.
+- **The sorter.** `./sorter compare` stays on Mistral Small 3.2. `WORKSHOP_SORTER_MODEL` names another
+  model.
+- **Class mode.** You have two base models: `mistral-small-2603`, and the cheaper Mistral Small 3.2
+  as the second one. A chatbot on the second one stays on it.
+- **The cost shown.** The saved price comes from OpenRouter's list of models. At `mistral/eu`,
+  `mistral-small-2603` costs $0.165/$0.66 per million tokens (in/out). Mistral Small 3.2 costs
+  $0.10/$0.30 there, against $0.075/$0.20 at the cheapest company, so OpenCode can show too low a
+  cost for it.
 - **What is already running keeps the old rule.** OpenCode and Open WebUI read the rule when they
   start. The command prints a line if one of them is running: close the chatbot and start it again,
   or type `openwebui start`. A `replay` stops by itself before its next question, but the question
@@ -717,14 +759,18 @@ in front, on a copy of the kit prepared by `workshop-start 5`:
 - Open WebUI in class mode, on a fake OpenRouter, without `--europe`: it starts, it prints the warning, and the rule
   `data_collection: deny` reaches the fake OpenRouter;
 - `workshop-login --europe`, on a fake OpenRouter: the routing in every request of `workshop` and
-  `replay`, the window of 32k, and a change of rule during a `replay`;
+  `replay`, the windows of 262k and 32k, mode B run with the first and refused with the second, and
+  a change of rule during a `replay`;
 - on an ordinary account, one tiny request to `openrouter.ai` with the same routing, `mistral/eu`
   alone: HTTP 200, answered by Mistral. A request to `eu.openrouter.ai` answered 403 with
   `error code: 1010`;
 - a real run through `workshop-login --europe` on 2026-11-01, with a logging relay: 60 answered
   requests carried the rule and named Mistral (OpenCode, `score`, `./sorter compare`, Open WebUI in
   kit mode), and DeepSeek v4 Flash was refused. The refusal of mode B before any request was tested
-  on a fake OpenRouter only.
+  on a fake OpenRouter only;
+- a second real run on 2026-11-01, one run on 2 cores, with `mistralai/mistral-small-2603` and
+  `mistral/eu` alone: `replay B 3 7 10`, `replay C`, `replay D 1 8`, `score C --auto` and
+  `./sorter compare`. 100 of 100 requests answered with HTTP 200 and named Mistral.
 
 The image number that carries these commands: TO BE COMPLETED.
 
@@ -754,12 +800,12 @@ The image number that carries these commands: TO BE COMPLETED.
 - The same scores replayed several times, to know how far a score moves.
 - A small real balance, a real 429 in a session, a real key limit, auto top-up.
 - Open WebUI in class mode with a real OpenRouter key, and Open WebUI with the default DeepSeek
-  model.
+  model or with `mistral-small-2603`.
 - The ZDR settings, **Zero retention only**, `eu.openrouter.ai` with the Business plan.
 - A whole session after `workshop-login --europe` with a real key, and the four other European
   endpoints.
-- Class mode with `--europe` (real or fake), and a class-mode chatbot in a 32k window.
-- Mode B with a European model of a larger window, and a workshop 2 that skips mode B with a group.
+- Class mode with `--europe` with a real key, and a class-mode chatbot in a 32k window.
+- `mistral-small-2603` in modes bare, A and E, and all 11 questions of mode B.
 - A question typed in an OpenCode screen opened before the rule changed. The line that warns of it
   was seen, on a fake OpenRouter.
 - A human reading of a sample of the scores.
