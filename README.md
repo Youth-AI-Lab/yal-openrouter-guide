@@ -143,7 +143,7 @@ Key OK (OpenCode, OpenRouter, model openrouter/deepseek/deepseek-v4-flash). You 
 In the Open WebUI guide (class mode), you see this instead:
 
 ```text
-Warning: with young people, turn on zero-data-retention models hosted in Europe.
+Warning: with young people, turn on zero-data-retention models hosted in Europe: workshop-login --europe
 Key OK (OpenRouter, model deepseek/deepseek-v4-flash). You can start: openwebui start
 ```
 
@@ -155,7 +155,10 @@ That warning is explained in [Part 8](#part-8---data-and-young-people).
 |---|---|---|
 | `Key saved, but this OpenRouter account has no credits left. Add credits, or choose a free model: workshop-login --models free` | The account is empty, or this key is at its limit. | Add credits, or raise the limit. |
 | `Key saved, but this key has reached its spending limit. Tell the facilitator.` | The key is at its limit. | Raise the limit on the key's page. |
-| `Key saved, but no company can serve the model <name> while promising not to keep the questions. Choose another model: workshop-login --models openrouter` | Your rules leave no company for this model. | Choose another model. |
+| `Key saved, but no company can serve the model <name> under the workshop's data rule. Choose another model: workshop-login --models openrouter` | Your rules leave no company for this model. | Choose another model. |
+| `Key saved, but no company hosted in Europe serves the model <name> with zero data retention. Choose another model, for example: workshop-login --model <name>` | You turned on `--europe`, and this model has no such company. | Type the command it gives. |
+| `OpenCode is already open and keeps the old data rule: close it and start it again. A replay stops by itself before its next question.` | You changed `--europe` while OpenCode was running. | Close that chatbot, then start it again. |
+| `Your data rule changed during this replay (workshop-login --europe or --no-europe). The next question was not sent.` | Same, during a `replay`. The question in progress finished under the old rule. | Type the same `replay` again. |
 | `Key saved, but the quota of the model <name> is reached for now (HTTP 429). Try again later, or choose another model: workshop-login --models openrouter` | Too many requests, or a free quota used up. | See [429](#429-too-many-requests). |
 | `Key saved, but the model <name> is busy (HTTP 503). Try again in a few minutes, or choose another model: workshop-login --models openrouter` | The model cannot answer now. | See [503](#503-busy-or-no-company). |
 | `Key saved, but OpenRouter refuses it (HTTP 401). Check it with the facilitator.` | The key is wrong or disabled. | Make a new key. |
@@ -193,7 +196,8 @@ WebUI is running, you see `Open WebUI keeps the old key until you type: openwebu
 | `./sorter compare` (workshop 6) | `claude-haiku-5-5` | `mistralai/mistral-small-3.2-24b-instruct` |
 
 `./sorter claude` still works as another name for `./sorter compare`. With an OpenRouter key, it
-does not call Claude.
+does not call Claude. With `workshop-login --europe`, every line of the last column is Mistral Small
+by default ([Part 8, step 2](#step-2-hosted-in-europe)).
 
 **What differs from the Anthropic route:**
 
@@ -201,8 +205,8 @@ does not call Claude.
   `read`, `grep` and `glob` tools.
 - `replay` runs in a copy of the kit without the test material.
 - OpenRouter would send a question to any company that serves the model. The kit adds
-  `data_collection: deny` to every request. This is not zero data retention
-  ([Part 8](#step-1-zero-data-retention)).
+  `data_collection: deny` to every request, which leaves out companies that may collect the data or
+  train on it. Some of the others keep prompts ([Part 8](#step-1-zero-data-retention)).
 - `replay` shows the cost when OpenCode knows the price of the model. `replay RAG` prints
   `cost: not shown by Open WebUI`.
 
@@ -351,15 +355,15 @@ model: read the list of the model's companies on its page.
 ## Part 8 - Data and young people
 
 > [!WARNING]
-> **With young people, turn on zero-data-retention models hosted in Europe.**
+> **With young people and OpenRouter, type `workshop-login --europe`.**
 >
-> This is the rule of the Youth AI Lab project for this route. `workshop-login` in class mode prints
-> it, and `openwebui` prints it with `in your OpenRouter settings` at the end.
+> Requests then go only to zero-data-retention companies hosted in Europe, with Mistral Small by
+> default. This is the rule of the Youth AI Lab project for this route. `workshop-login` in class
+> mode and `openwebui` print it until it is on.
 >
-> Those settings hold the first half only, and an ordinary account can turn it on there. "Hosted in
-> Europe" is not a setting, and the commands of the kit cannot do it yet: see
-> [step 2](#step-2-hosted-in-europe). Then read [what no setting removes](#what-no-setting-removes)
-> before you open anything to young people.
+> It does not keep everything in Europe ([step 2](#step-2-hosted-in-europe)), and it does not lift
+> [what no setting removes](#what-no-setting-removes). Read both before you open anything to young
+> people.
 
 The workshops are for adults. This part is for the moment a chatbot opens to young people, such as
 in the class mode of the Open WebUI guide.
@@ -373,8 +377,13 @@ OpenRouter's [definition](https://openrouter.ai/docs/guides/features/zdr): "Zero
 (ZDR) means that a provider will not store your data for any period of time." A company can promise
 not to train on your data and still keep it, so these are two promises.
 
-The rule of the kit, `data_collection: deny`, does not give you ZDR. On 2026-11-01, Gemini 2.5
-Flash Lite answered with this rule on, and its one company is listed with 55 days of retention.
+The rule the kit always sends, `data_collection: deny`, does not give you ZDR. It only leaves out
+companies that may collect the data or train on it. On 2026-11-01, Gemini 2.5 Flash Lite and
+`google/gemma-4-26b-a4b-it:free` answered with this rule on, and the one company of each is listed
+with 55 days of retention.
+
+`workshop-login --europe` ([step 2](#step-2-hosted-in-europe)) asks for ZDR in each request of the
+kit. The settings below hold it for the whole account, whatever tool uses the key:
 
 1. As the account holder, open the [privacy settings](https://openrouter.ai/settings/privacy).
 2. Turn on the ZDR toggle of each model group: **Anthropic**, **OpenAI**, **Google**, **SpaceXAI**
@@ -406,48 +415,89 @@ ZDR has limits, even when it is on:
 
 ### Step 2: hosted in Europe
 
-Europe is not a toggle. OpenRouter [writes](https://openrouter.ai/docs/guides/features/in-region-routing):
-"There is no setting to turn on: once your account is on one of these plans, you choose the region
-for each request by sending it to that region's base URL."
+```bash
+workshop-login --europe
+```
+
+Press Enter alone to keep the saved key. You must see:
+
+```text
+Key OK (OpenCode, OpenRouter, model openrouter/mistralai/mistral-small-3.2-24b-instruct, hosted in Europe). You can start: workshop bare
+```
+
+From then on, `workshop`, `replay`, `score`, `openwebui` and `./sorter` send this with each request:
+five European endpoints (`mistral/eu`, `amazon-bedrock/eu-west-1`, `azure/eu`, `azure/swedencentral`,
+`google-vertex/europe`), zero data retention, no fallback. If none of them can serve the model, the
+request fails. It does not go elsewhere.
+
+> [!WARNING]
+> **`--europe` chooses where the model runs, not where OpenRouter handles the request.** OpenRouter
+> itself may handle a request elsewhere. The kit still sends every request to `openrouter.ai`, and
+> has no option for `eu.openrouter.ai`. Accounts, billing and security logs may stay in the US in
+> all cases.
 
 | What you want | Ordinary account (Standard) | Business plan |
 |---|---|---|
-| The ZDR settings of step 1 | yes | yes |
-| Requests sent to `eu.openrouter.ai`, served only in Europe (EU and EEA, UK, Switzerland), with no fallback outside it | no | yes: self-serve, no contract, no minimum, a fee of 8 % on credits instead of 5.5 % |
-| A European company named inside a request (`provider.only`) | the documentation sets no plan condition; (not tested) | not needed |
+| A European company named inside each request: `workshop-login --europe` | yes: measured below | not needed |
+| Requests sent to `eu.openrouter.ai`, handled and served only in Europe (EU and EEA, UK, Switzerland), with no fallback outside it | no: on 2026-11-01 it answered 403 to an ordinary account | yes: self-serve, no contract, no minimum, a fee of 8 % on credits instead of 5.5 %; not supported by the commands of the kit |
 | A free model in Europe | none | none |
 
-Naming a company in a request chooses where the model runs. It does not choose where OpenRouter
-handles the request: only the European address does that.
+For the European address, OpenRouter [writes](https://openrouter.ai/docs/guides/features/in-region-routing):
+"There is no setting to turn on: once your account is on one of these plans, you choose the region
+for each request by sending it to that region's base URL." Even there, only prompts and answers stay
+in Europe. OpenRouter [writes](https://openrouter.ai/docs/guides/features/sovereign-ai): "Account,
+billing, and other operational records may be stored or processed in the US." OpenRouter, Inc. is a
+New York company, and the EU-only addendum of its data processing agreement applies only if chosen
+in writing.
 
-> [!WARNING]
-> **The commands of the kit cannot do step 2 yet.** They send every request to `openrouter.ai`,
-> have no option for `eu.openrouter.ai`, and name no company. `workshop-login --model` chooses a
-> model, not a place. TO BE COMPLETED.
+**What was measured.** On 2026-11-01, on an ordinary account with no Business plan, one tiny real
+request to `openrouter.ai`, model Mistral Small, naming `mistral/eu` alone, got HTTP 200, answered
+by Mistral. The same request to `eu.openrouter.ai` answered 403. The same day, a real run through
+`workshop-login --europe` covered OpenCode in modes C and D (4 questions), `score`, `./sorter compare`
+and Open WebUI (2 questions). All 60 requests carried the rule, and OpenRouter named Mistral as the
+company on all 60. The sorter got 32 of 32 right, with no emergency missed. The whole run cost
+$0.006. DeepSeek v4 Flash, which has no such company, was refused. The region is OpenRouter's
+declaration: no call and no independent proof confirmed where a model runs.
 
-**The model must change too:**
+**What changes when it is on:**
+
+- **The model.** You move to `mistralai/mistral-small-3.2-24b-instruct`, unless `--model` names
+  another model. If that one has no such company, the command says so.
+- **The window** (how much the model can read at once). Mistral Small has 32k tokens at `mistral/eu`,
+  against 128k to 256k at the three other companies, none listed in Europe. OpenRouter's list of
+  models says 256,000 for this model, so `--europe` saves the size from the list of its companies.
+  Mode B sends the whole kit at once (about 100k tokens) and cannot fit. In the real run, OpenCode
+  failed before the model's first word. The commands now refuse mode B with a sentence that says so,
+  so the steps of workshop 2 that use mode B cannot run with `--europe`.
+- **The scores.** Our runs were not pinned to `mistral/eu`, so its scores in
+  [Part 6](#part-6---the-models-on-2026-11-01) are not scores in Europe.
+- **The judge.** The usual judge has no company in Europe, so `score` uses Mistral Small, unless
+  `WORKSHOP_JUDGE_MODEL` names another model. It gave the same note as `claude-haiku-5-5` on 135 of
+  181 notes (74 %), against 150 of 180 (83 %) for the usual judge.
+- **The cost shown.** The saved price comes from OpenRouter's list of models. Mistral Small costs
+  $0.10/$0.30 per million tokens (in/out) at `mistral/eu`, against $0.075/$0.20 at the cheapest
+  company, so OpenCode can show too low a cost.
+- **What is already running keeps the old rule.** OpenCode and Open WebUI read the rule when they
+  start. The command prints a line if one of them is running: close the chatbot and start it again,
+  or type `openwebui start`. A `replay` stops by itself before its next question, but the question
+  in progress finishes under the old rule. So turn it on first, then start the rest.
+
+It stays with your later logins. `workshop-login --no-europe` removes it, and so does a key of
+another provider.
+
+**The other models of Part 6:**
 
 - **`deepseek/deepseek-v4-flash`, the default:** OpenRouter lists no company running it in Europe.
-  Change it. Of its 17 companies, 12 are ZDR and 5 keep prompts. `deepseek/deepseek-v4-flash-0731`
-  is a different model, served in Europe by Inceptron: (not tested).
-- **`mistralai/mistral-small-3.2-24b-instruct`** is the one measured model that OpenRouter lists in
-  Europe, run by Mistral (`mistral/eu`). Its window (how much the model can read at once) is smaller
-  there: 32k tokens, against 128k to 256k at the three other companies, none listed in Europe. Our
-  runs were not pinned to `mistral/eu`, so its scores in
-  [Part 6](#part-6---the-models-on-2026-11-01) are not scores in Europe.
+  Of its 17 companies, 12 are ZDR and 5 keep prompts.
 - **`google/gemini-2.5-flash-lite`:** OpenRouter lists no company running it in Europe, and none
   under ZDR.
 
 On 2026-11-01, OpenRouter's public [list](https://eu.openrouter.ai/api/v1/endpoints/zdr) showed 87
 ZDR endpoints (see step 1) in Europe, for 66 models with tools, from five companies: Mistral, Azure,
 Amazon Bedrock, Google Vertex and Inceptron. The two Gemini chat models on that list use Safety
-Retention. The region is OpenRouter's declaration: no call and no independent proof confirmed where
-a model runs.
-
-Even with `eu.openrouter.ai`, only prompts and answers stay in Europe. OpenRouter
-[writes](https://openrouter.ai/docs/guides/features/sovereign-ai): "Account, billing, and other
-operational records may be stored or processed in the US." OpenRouter, Inc. is a New York company,
-and the EU-only addendum of its data processing agreement applies only if chosen in writing.
+Retention. `--europe` names the first four, not Inceptron, whose tags do not say Europe: it refuses
+a model served in Europe by Inceptron alone, such as `deepseek/deepseek-v4-flash-0731`, a different
+model from the default (not tested).
 
 ### What each company's terms say
 
@@ -546,7 +596,15 @@ in front, on a copy of the kit prepared by `workshop-start 5`:
   `replay RAG` 11 answers in 46 s, 0 ERROR, nothing in the error log;
 - the cap of 8,192 tokens, on a fake OpenRouter and in the run with credits;
 - Open WebUI in class mode, on a fake OpenRouter: it starts, it prints the warning, and the rule
-  `data_collection: deny` reaches the fake OpenRouter.
+  `data_collection: deny` reaches the fake OpenRouter;
+- `workshop-login --europe`, on a fake OpenRouter: the routing in every request of `workshop` and
+  `replay`, the window of 32k, and a change of rule during a `replay`;
+- on an ordinary account, one tiny request to `openrouter.ai` with the same routing, `mistral/eu`
+  alone: HTTP 200, answered by Mistral. The same request to `eu.openrouter.ai` answered 403;
+- a real run through `workshop-login --europe` on 2026-11-01, with a logging relay: 60 of 60 requests
+  carried the rule and were answered by Mistral (OpenCode, `score`, `./sorter compare`, Open WebUI),
+  and DeepSeek v4 Flash was refused. The refusal of mode B before any request was tested on a fake
+  OpenRouter only.
 
 The image number that carries these commands: TO BE COMPLETED.
 
@@ -558,7 +616,11 @@ The image number that carries these commands: TO BE COMPLETED.
 - A small real balance, a real 429 in a session, a real key limit, auto top-up.
 - Open WebUI in class mode with a real OpenRouter key, and Open WebUI with the default DeepSeek
   model.
-- The ZDR settings, **Zero retention only**, `eu.openrouter.ai`, `provider.only`, the Business plan.
+- The ZDR settings, **Zero retention only**, `eu.openrouter.ai` with the Business plan.
+- A whole session after `workshop-login --europe` with a real key, and the four other European
+  endpoints.
+- A question typed in an OpenCode screen opened before the rule changed. The line that warns of it
+  was seen, on a fake OpenRouter.
 - A human reading of a sample of the scores.
 - The cost of a full session.
 
