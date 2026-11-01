@@ -177,7 +177,7 @@ That warning is explained in [Part 8](#part-8---data-and-young-people).
 | `Key saved, but this OpenRouter account has no credits left. Add credits, or choose a free model: workshop-login --models free` | The account is empty, or this key is at its limit. | Add credits, or raise the limit. |
 | `Key saved, but this key has reached its spending limit. Tell the facilitator.` | The key is at its limit. | Raise the limit on the key's page. |
 | `Key saved, but no company can serve the model <name> under the workshop's data rule. Choose another model: workshop-login --models openrouter` | Your rules leave no company for this model. | Choose another model. |
-| `Key saved, but no company hosted in Europe serves the model <name> with zero data retention. Choose another model, for example: workshop-login --model <name>` | You turned on `--europe`, and this model has no such company. | Type the command it gives. |
+| `Key saved, but Mistral does not serve the model <name> in Europe with zero data retention. Choose another model, for example: workshop-login --model <name>` | You turned on `--europe`, and this model has no such company. | Type the command it gives. |
 | `OpenCode is already open and keeps the old data rule: close it and start it again. A replay stops by itself before its next question.` | You changed `--europe` while OpenCode was running. | Close that chatbot, then start it again. |
 | `Your data rule changed during this replay (workshop-login --europe or --no-europe). The next question was not sent.` | Same, during a `replay`. The question in progress finished under the old rule. | Type the same `replay` again. |
 | `Open WebUI keeps the old data rule until you type: openwebui start` | You changed `--europe` while Open WebUI was running. | Type `openwebui start`. |
@@ -439,12 +439,12 @@ not change the model: wait, or stop the chatbot for this session.
 > [!WARNING]
 > **With young people and OpenRouter, type `workshop-login --europe`.**
 >
-> Requests then go only to zero-data-retention companies hosted in Europe, with Mistral Small by
-> default. This is the rule of the Youth AI Lab project for this route. In class mode,
+> Requests then go only to Mistral, hosted in Europe, with zero data retention. The default model
+> is Mistral Small. This is the rule of the Youth AI Lab project for this route. In class mode,
 > `workshop-login`, `openwebui start` and `openwebui share open` print it until it is on.
 >
-> **Keep Mistral Small and do not use `--model`.** `--europe` also allows Amazon, Azure and Google.
-> The terms of Amazon and Azure were not read, and Google's may exclude this use
+> **Keep Mistral Small.** `--europe` allows Mistral alone. Other companies run models in Europe, but
+> the terms of Amazon and Azure were not read, and Google's may exclude this use
 > ([item 4](#what-no-setting-removes)). Mistral's were read, and they ask for parental consent
 > ([item 5](#what-no-setting-removes)).
 >
@@ -501,9 +501,8 @@ Key OK (OpenCode, OpenRouter, model openrouter/mistralai/mistral-small-3.2-24b-i
 must be gone. If you still see it, the rule is off.
 
 From then on, `workshop`, `replay`, `score`, `openwebui` and `./sorter` send this with each request:
-five European endpoints (`mistral/eu`, `amazon-bedrock/eu-west-1`, `azure/eu`, `azure/swedencentral`,
-`google-vertex/europe`), zero data retention, no second choice. An endpoint is one company running
-one model in one place. If none of them can serve the model, the request fails. The real run below
+one European endpoint (`mistral/eu`), zero data retention, no second choice. An endpoint is one
+company running one model in one place. If it cannot serve the model, the request fails. The real run below
 used `openwebui` in kit mode: class mode with `--europe` is (not tested).
 
 > [!WARNING]
@@ -624,8 +623,7 @@ The default model does not reach DeepSeek itself. OpenRouter lists 17 other comp
   Mancer 2, Azure (in the US), Cloudflare and Wafer;
 - keeping the questions: StreamLake, Baidu, GMICloud, AtlasCloud and Alibaba.
 
-**The terms of these 17 companies were not read**, and neither were those of Amazon and Azure for
-`--europe`. So the default route is for adults only, with invented or public questions.
+**The terms of these 17 companies were not read.** So the default route is for adults only, with invented or public questions.
 
 ### What no setting removes
 
@@ -739,11 +737,9 @@ The image number that carries these commands: TO BE COMPLETED.
 - On 2026-11-01, OpenRouter's public [list for Europe](https://eu.openrouter.ai/api/v1/endpoints/zdr)
   showed 87 ZDR endpoints for 76 models. 77 of these endpoints, for 66 models, can use tools. They
   come from five companies: Mistral, Azure, Amazon Bedrock, Google Vertex and Inceptron.
-- `--europe` names five endpoints of the first four companies. It leaves out Inceptron, whose tags
-  do not say Europe, `mistral/nvfp4/eu`, and `google-vertex/eu`, because the two Gemini chat models
-  on that list use Safety Retention.
-- So `--europe` should refuse a model served in Europe by Inceptron alone, such as
-  `deepseek/deepseek-v4-flash-0731`, a different model from the default: (not tested).
+- `--europe` names `mistral/eu` alone: the terms of Mistral are the ones read for this route. So it
+  refuses a model served in Europe by another company, such as `deepseek/deepseek-v4-flash-0731`
+  at Inceptron: (not tested).
 - Prices and windows of the model table come from OpenRouter's list on 2026-11-01. The price of
   DeepSeek v4 Flash was printed with two decimals, hence "about".
 
