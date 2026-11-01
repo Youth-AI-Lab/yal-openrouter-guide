@@ -122,7 +122,7 @@ that were measured.
 
 1. On the page **Keys**, choose **Create API Key**. Name it after the pair.
 2. Under **Key limit**, set a **Credit limit**, in dollars. We suggest $1 for one session, $3 for the
-   six workshops ([our estimate](#part-2---an-account-with-credits)). You choose how often it
+   six workshops ([our estimate](#part-2---the-account)). You choose how often it
    resets: daily, weekly, monthly, or never. Choose **never**: the limit then caps the whole use of
    the key. OpenRouter recommends a limit on every key. You may also choose no limit: do not.
 3. Copy the key. It starts with `sk-or-`.
