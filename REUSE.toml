@@ -1,0 +1,18 @@
+version = 1
+SPDX-PackageName = "yal-openrouter-guide"
+SPDX-PackageSupplier = "Youth AI Lab (Erasmus+)"
+SPDX-PackageDownloadLocation = "https://github.com/Youth-AI-Lab/yal-openrouter-guide"
+
+# Text: CC BY-SA 4.0.
+[[annotations]]
+path = ["README.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Youth AI Lab partners"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# Configuration files: EUPL-1.2.
+[[annotations]]
+path = ["REUSE.toml", ".gitattributes"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Youth AI Lab partners"
+SPDX-License-Identifier = "EUPL-1.2"
