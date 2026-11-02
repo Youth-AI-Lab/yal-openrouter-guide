@@ -44,7 +44,7 @@ in the Open WebUI guide. The two kinds of key use the same commands.
 | **6. The models** | Read the table of 2026-11-01, read a model page, and say why a group cannot rely on free models. |
 | **7. When a request fails** | Recognise a 429, a 402, a 403 and a 503, and know what to do during a session. |
 | **8. Data and young people** | Turn on what the warning asks, and say what no setting removes. |
-| **9. Sources and status** | Check the sources, and see what was tested. |
+| **9. Sources and status** | Check the sources and the notes on the measures. |
 
 ### Prerequisites
 
@@ -864,7 +864,7 @@ model, not the key.
 `ERROR: the company that runs the model blocked this text (403: <details>). Change the question, or
 ask the facilitator.`
 
-We saw the two columns with a fake OpenRouter on 2026-11-02 ([Part 9](#what-was-tested)), with words
+We saw the two columns with a fake OpenRouter on 2026-11-02, with words
 copied from OpenRouter's documentation. What the real one writes when a guardrail refuses a company is
 (not tested).
 
@@ -986,7 +986,7 @@ kit.
 
 | What you want | Ordinary account (Standard) | Business plan |
 |---|---|---|
-| A European company named inside each request: `workshop-login --europe` | yes: OpenRouter accepted it ([Part 9](#what-was-tested)) | not needed |
+| A European company named inside each request: `workshop-login --europe` | yes: OpenRouter accepted it on 2026-11-01 | not needed |
 | Requests sent to `eu.openrouter.ai`, handled and served only in Europe (EU and EEA, UK, Switzerland), with no fallback outside it | no: the pricing table gives it to the Business and Enterprise plans | yes, but the commands of the kit do not support it |
 | A free model in Europe | none | none |
 
@@ -1261,61 +1261,6 @@ real account, with the personal details hidden. The labels of those pages in thi
 them. The pictures of the terminal come from the real commands of image 2026.10.43, in a container
 with no network, with a fake key and a fake OpenRouter. The names of the models are real: the fake
 OpenRouter served a copy of the public list of that day.
-
-### What was tested
-
-In short: the commands ran for real on 2026-11-01 with OpenRouter, with and without `--europe`, in a
-test container, but never with a group, never in a real Codespace, and no full session. The details
-below are for checking.
-
-<details>
-<summary>The details</summary>
-
-On 2026-11-01, with OpenCode 2.1.4, in a container of image 2026.10.42 with the new commands placed
-in front, on a copy of the kit prepared by `workshop-start 5`:
-
-- the scores, the judges and the sorter of [Part 6](#part-6---the-models-on-2026-11-01);
-- on an account with credits, a key pasted with no option: `workshop-login`, the `summarize` skill
-  with `deepseek/deepseek-v4-flash`, `replay D`, `score D --auto`, `./sorter compare`, then the two
-  free models one at a time;
-- Open WebUI v0.12.4 in kit mode, with Mistral Small through OpenRouter: `openwebui start` 250 s,
-  `openwebui sizes` 885 s (2 cores, three other measures at the same time), `openwebui query` right,
-  `replay RAG` 11 answers in 44 s, 0 ERROR, nothing in the error log;
-- the cap of 8,192 tokens, on a fake OpenRouter and in the run with credits, not with a small real
-  balance;
-- Open WebUI in class mode, on a fake OpenRouter, without `--europe`: it starts, it prints the warning, and the rule
-  `data_collection: deny` reaches the fake OpenRouter;
-- `workshop-login --europe`, on a fake OpenRouter: the routing in every request of `workshop` and
-  `replay`, the windows of 262k and 32k, mode B run with the first and refused with the second, and
-  a change of rule during a `replay`;
-- on an ordinary account with no Business plan, one tiny request to `openrouter.ai`, model Mistral
-  Small, naming `mistral/eu` alone: HTTP 200, and OpenRouter named Mistral as the company. A request
-  to `eu.openrouter.ai` answered 403 with `error code: 1010`, which does not say why;
-- a real run through `workshop-login --europe` on 2026-11-01, with a logging relay: OpenCode in modes
-  C and D (4 questions), `score`, `./sorter compare` and Open WebUI in kit mode (2 questions). 60
-  requests were answered, all 60 carried the rule, and OpenRouter named Mistral as the company on all
-  60. The sorter got 32 of 32 right, with no emergency missed. The whole run cost $0.0065. DeepSeek v4
-  Flash, which has no such company, was refused. The refusal of mode B before any request was tested
-  on a fake OpenRouter only;
-- a second real run on 2026-11-01, one run on 2 cores, with `mistralai/mistral-small-2603` and
-  `mistral/eu` alone: `replay B 3 7 10`, `replay C`, `replay D 1 8`, `score C --auto` and
-  `./sorter compare`. 100 of 100 requests answered with HTTP 200, carried the rule and named Mistral:
-  89 on `mistral-small-2603`, and 11 judge calls on Mistral Small 3.2. The run cost $0.037;
-- a third real run on 2026-11-01, one run on 2 cores, `workshop-login --europe` with no other option:
-  `replay bare`, `replay A`, `replay E 1 3`, all 11 questions of `replay B` (26 s, $0.01 shown, about
-  70,000 tokens each), `./sorter compare` (32 of 32, no emergency missed), Open WebUI in kit mode
-  with `replay RAG 1 7`, then Open WebUI in class mode: `openwebui start` and `openwebui share open`
-  without the warning, and one real question to each of the two base models. 78 of 78 requests
-  answered with HTTP 200 and named Mistral. No ERROR in the answers. $0.03 for the whole run;
-- on 2026-11-02, in a container of image 2026.10.43 with no network, a fake OpenRouter and a fake key:
-  five 403 messages through `workshop-login`, `replay`, `score` and `./sorter compare`. Three messages
-  copied from OpenRouter's documentation (a key at its limit, a workspace budget, a data region
-  guardrail) gave the spending-limit line. A fourth one (`Request blocked: prompt injection patterns
-  detected`) and an invented one about a provider gave the refused line. The same run tested a model
-  still listed that answers 404 (`no company can serve the model`), and a model gone from the list
-  (`OpenRouter has no model`, `Nothing saved.`, no request sent).
-
-</details>
 
 ### Notes on the measures
 
