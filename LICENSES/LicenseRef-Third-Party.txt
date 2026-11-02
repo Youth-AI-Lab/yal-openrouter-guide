@@ -1,0 +1,4 @@
+The pictures of images/ that are not terminal-*.png show the website of OpenRouter
+(https://openrouter.ai). The website belongs to OpenRouter, Inc. The pictures are shown so that a
+reader can follow the steps of this guide. The CC BY-SA 4.0 licence of this guide does not cover
+them. The red frames and numbers were added by the Youth AI Lab partners.

@@ -3,9 +3,16 @@ SPDX-PackageName = "yal-openrouter-guide"
 SPDX-PackageSupplier = "Youth AI Lab (Erasmus+)"
 SPDX-PackageDownloadLocation = "https://github.com/Youth-AI-Lab/yal-openrouter-guide"
 
-# Text: CC BY-SA 4.0.
+# The pictures show the website of OpenRouter, which is not ours: see LICENSES/LicenseRef-Third-Party.txt.
 [[annotations]]
-path = ["README.md"]
+path = ["images/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "OpenRouter, Inc."
+SPDX-License-Identifier = "LicenseRef-Third-Party"
+
+# Text and terminal pictures, which are ours: CC BY-SA 4.0. The last matching rule wins.
+[[annotations]]
+path = ["README.md", "images/terminal-*.png"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Youth AI Lab partners"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
