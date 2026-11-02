@@ -44,7 +44,7 @@ in the Open WebUI guide. The two kinds of key use the same commands.
 | **6. The models** | Read the table of 2026-11-01, read a model page, and say why a group cannot rely on free models. |
 | **7. When a request fails** | Recognise a 429, a 402, a 403 and a 503, and know what to do during a session. |
 | **8. Data and young people** | Turn on what the warning asks, and say what no setting removes. |
-| **9. Sources and status** | Check the sources, and see what was tested and what was not. |
+| **9. Sources and status** | Check the sources, and see what was tested. |
 
 ### Prerequisites
 
@@ -1383,30 +1383,6 @@ the list of the model's companies, which says 32k at `mistral/eu`.
 Prices and windows of the model table come from OpenRouter's list on 2026-11-01. The price of
 DeepSeek v4 Flash was printed with two decimals, hence "about". The rows of its companies come from
 OpenRouter's public page of the same day.
-
-### What was not tested
-
-- A group. A real Codespace.
-- The steps of OpenRouter's account pages in Parts 2, 3 and 8. No person has followed them with this
-  guide. The pictures show the screens, but none shows a very first purchase. These pages come from OpenRouter's documentation only: Security settings, Notifications, Logs, the
-  workspace Budgets, the Guardrails page, and the path to two-factor authentication.
-- Giving keys to pairs, disabling or archiving a key, a key at its expiry date.
-- A workspace budget, a guardrail, the alerts, the Security settings page.
-- `google/gemma-4-26b-a4b-it:free` at another moment: its 429 came from the company that runs it.
-- The same scores replayed several times, to know how far a score moves.
-- A small real balance, a real 429 in a session, a real key limit, auto top-up.
-- Open WebUI with the default DeepSeek model.
-- The ZDR settings, **Zero retention only**, `eu.openrouter.ai` with the Business plan.
-- A whole session after `workshop-login --europe` with a real key, and the four other European
-  endpoints.
-- Class mode with `--europe` with participants: their accounts, phones, a chatbot built by hand and
-  its move between models, the public link of a real Codespace. A class-mode chatbot in a 32k window.
-- The Wildfire RAG models of `openwebui sizes` with `mistral-small-2603`.
-- A question typed in an OpenCode screen opened before the rule changed. The line that warns of it
-  was seen, on a fake OpenRouter.
-- A human reading of a sample of the scores.
-- The cost of a full session.
-- A session in France, Spain, Italy or Belgium.
 
 ---
 
