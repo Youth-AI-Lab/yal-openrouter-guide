@@ -1110,8 +1110,8 @@ with these companies are not public.
 |---|---|---|---|---|
 | **DeepSeek**, its own services | "primarily intended for adults"; under 18 with a guardian's consent; no chatbot "designed to specifically appeal to or present a persona of any person under the age of 18" | may use inputs and outputs, de-identified; OpenRouter lists DeepSeek's own row as training | as long as the account exists, no number of days | China |
 | **Mistral**, API and Studio | no personal information of children under 13 or the age of digital consent; minors need "legally adequate consent from their parent or guardian" | no, unless you agree to it; feedback, an order form, and Labs or Preview models are exceptions | 30 rolling days, unless ZDR; OpenRouter lists no retention on `mistral/eu` | EU by default; temporary transfers possible, depending on the feature |
-| **Google**, Gemini API and AI Studio | 18 or older, and see below | paid services: no; in the EEA, Switzerland and the UK, the same rules for free services | 55 days | "any country in which Google or its agents maintain facilities" |
-| **Google**, Vertex | see below | not without the customer's permission | flagged prompts, up to 90 days | the `eu` address stays in EU member states |
+| **Google**, Gemini API and AI Studio | 18 or older, and see [item 4](#what-no-setting-removes) | paid services: no; in the EEA, Switzerland and the UK, the same rules for free services | 55 days | "any country in which Google or its agents maintain facilities" |
+| **Google**, Vertex | see [item 4](#what-no-setting-removes) | not without the customer's permission | flagged prompts, up to 90 days | the `eu` address stays in EU member states |
 | **Cohere**, free model of Part 6 | "not intended to be used by minors (children)"; its usage policy asks an application used by minors for added safety controls | trial keys: may be used for research and development | 30 days, unless flagged | Google Cloud, US-Central, in an undated FAQ |
 
 The default model does not reach DeepSeek itself. OpenRouter lists 17 other companies for it. Under
