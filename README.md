@@ -486,9 +486,10 @@ room is the worst case, so keep your margin and test ahead.
   ([how](#read-a-model-page-before-you-trust-it)).
 - [ ] With young people: your data protection contact has answered, and you hold written parental
   consent ([Part 8](#part-8---data-and-young-people)).
-- [ ] With young people: you asked OpenRouter in writing about its 18+ rule and section 5.2
-  ([Part 8, item 1](#what-no-setting-removes)), and your organisation decided with its answer in
-  hand. `--europe` does not lift this rule.
+- [ ] With young people: the keys stay with the adults, and no young person creates or uses their
+  own key ([Part 8, item 1](#what-no-setting-removes)). Your organisation decided, knowing that this
+  reading of the 18+ rule comes from OpenRouter's support chat, not from its terms. `--europe` does
+  not lift this rule.
 
 **The day before:**
 
@@ -906,7 +907,8 @@ The workshops are for adults. This part is for the moment a chatbot opens to you
 in the class mode of the Open WebUI guide. At the end, you know what to turn on, what each setting
 covers, and what no setting removes.
 
-This is not legal advice. It says what the texts said on 2026-11-01. The organisation decides, with
+This is not legal advice. It says what the texts said on 2026-11-01, plus the answer of
+OpenRouter's support chat on its age rule ([item 1](#what-no-setting-removes)). The organisation decides, with
 its data protection contact. Nothing here means that this setup is allowed for your group.
 
 ### What zero data retention means
@@ -1011,8 +1013,11 @@ in writing.
    parental consent. Section 5.2 of the terms adds: "You will require that all of your Authorized
    Users and customers access and use the Service and Models only in accordance with this
    Agreement". No text says in so many words that an organisation may or may not offer a chatbot to
-   minors, but together these clauses weigh against it. The question has to go to OpenRouter, in
-   writing: <support@openrouter.ai>, or **Raise a Ticket** on its
+   minors. Asked through its support chat, OpenRouter answered that the rule forbids a young person
+   to create and use their own key, and does not apply to young people supervised by a responsible
+   adult. This reading is not written in its terms or its privacy policy (both last updated 31
+   August 2026), and the date of the chat was not recorded. So keep every key with the adults, and stay with the group. If your organisation wants the
+   answer in writing, ask <support@openrouter.ai>, or **Raise a Ticket** on its
    [Support](https://openrouter.ai/support) page.
 2. **Sensitive data.** The data processing agreement lists health, origin, religion and criminal
    records, among others, and says: "No processing of Sensitive Data or any special categories is
