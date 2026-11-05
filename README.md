@@ -607,7 +607,9 @@ OpenRouter would send a question to any company that serves the model, so the ki
 train on it. Some of the others keep the questions
 ([Part 8](#what-zero-data-retention-means)).
 
-`replay` shows the cost when OpenCode knows the price of the model. `replay RAG` prints
+OpenRouter writes the cost of each request in its answer. From OpenCode 2.2.5 on, `replay` shows
+this cost. OpenCode 2.1.4 ignores it and works the cost out from the price of the model, when it
+knows that price. With no cost and no price, `replay` prints `cost: not known`. `replay RAG` prints
 `cost: not shown by Open WebUI`.
 
 ---
@@ -656,7 +658,9 @@ model reads at once. ZDR, zero data retention, is explained in
 Each company sets its own price, so one model has many. For `deepseek/deepseek-v4-flash`, $0.09/$0.18
 is OpenRouter's list of models and the row of DeepInfra. The model page shows $0.05/$0.45 at the top,
 the row of Relace, and other rows reach $0.44/$1.32 at Cloudflare or $0.60/$0.17 at Wafer. The kit
-saves the price of the list. So the cost that `replay` shows is an estimate, and the Activity page
+saves the price of the list. With OpenCode 2.1.4, the cost that `replay` shows comes from this
+price: it is an estimate. From OpenCode 2.2.5 on, `replay` shows the cost that OpenRouter wrote in
+each answer (all 252 answers of our four runs in Europe, on 2026-11-01, had one). The Activity page
 shows what you really paid.
 
 ### Why these defaults
@@ -1089,9 +1093,9 @@ agrees less often with our reference judge than the usual judge does: 75 % again
 ([Part 9](#notes-on-the-measures)). In class mode, you have two base models: `mistral-small-2603`,
 and the cheaper Mistral Small 3.2 as the second one. A chatbot on the second one stays on it.
 
-The cost shown can be too low, for the reason given in
+With OpenCode 2.1.4, the cost shown can be too low, for the reason given in
 [Part 6](#part-6---the-models-on-2026-11-01): the kit saves the price of the list, and at `mistral/eu`
-a model costs more.
+a model costs more. From OpenCode 2.2.5 on, `replay` shows the cost that OpenRouter reports.
 
 Turn the rule on first, then start the rest: what is already running keeps the old rule
 ([what each message means](#what-each-message-means)).
