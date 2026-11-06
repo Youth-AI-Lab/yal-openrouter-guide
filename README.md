@@ -262,9 +262,18 @@ Nobody has checked whether these alerts start on or off (not tested).
 
 ### What a session costs
 
-This is an estimate: no full session was measured. In our runs, a `replay` of 11 questions showed
-$0.01 to $0.02. We assume a pair asks about as much as four replays in one session, 44 questions:
-about $0.08. The worst case is all 44 in mode B at list price, about $0.51 (70,000 tokens at $0.165
+On 5 November 2026, we played the commands of workshops 1 to 5 once, one after the other, as one
+pair would, with the default model `deepseek/deepseek-v4-flash`. It was in a container of the image of the workshops of that day (2026.11.4, OpenCode 2.1.4), not in a
+Codespace, and without a group. The commands of the terminal cost about **$0.12** in all, from the
+cost that OpenRouter wrote in each answer: under one cent for workshop 1, about $0.03 for workshops 2
+and 3, $0.01 for workshop 4 and $0.04 for workshop 5. The questions asked to Open WebUI the same day,
+on a laptop, added $0.004. Not counted: `replay RAG` and the Open WebUI chatbots of workshops 1, 3, 4
+and 5. Workshop 5 cost the most, then workshop 3; per question, mode B is the most expensive. A real
+pair asks more questions in the conversation, so take these figures as a minimum.
+
+Before that run, we made an estimate. In our runs, a `replay` of 11 questions showed $0.01 to $0.02.
+We assume a pair asks about as much as four replays in one session, 44 questions: about $0.08. The
+worst case is all 44 in mode B at list price, about $0.51 (70,000 tokens at $0.165
 per million, with `mistral-small-2603`). So we suggest a limit of **$1 per key for one session**, and
 **$3 for a key that follows the six workshops**. Workshop 2 is the one that uses mode B, which sends
 all the documents with each question, so we do not multiply $1 by six.
@@ -667,7 +676,7 @@ shows what you really paid.
 
 DeepSeek v4 Flash scored highest in modes C, D and E with no failed answer, and as judge it left one
 answer without a score, against 27 for Gemini 2.5 Flash Lite. That is one run: a rough guide, not a
-ranking. The cost is time: 3 to 4.5 minutes for a `replay` of 11 questions in bare, C, D and E,
+ranking. The cost is time: 2 to 4.5 minutes for a `replay` of 11 questions in bare, C, D and E (two tests),
 against 32 to 53 seconds for Mistral Small.
 
 Mistral Small sorted all 32 test messages and missed no urgent one, so it is the sorter. It is also
@@ -1303,6 +1312,13 @@ $0.0007, where `claude-haiku-5-5` gave 15/22. That is one run.
 
 The second run of mode D of DeepSeek v4 Flash took 2 min 43 and showed $0.02 for 11 answers.
 `score D --auto` then gave 21/22 with DeepSeek as judge, for $0.0008.
+
+In the run of 5 November 2026, DeepSeek v4 Flash answered 3 questions of 11 in mode bare (1, 2 and
+10) with a tool call written as text, `<｜DSML｜tool_calls>`, instead of an answer: a `web_search` for 1
+and 10, a shell `curl` for 2, tools it does not have. Modes A to E had none. In Open WebUI, with a chatbot built by
+`openwebui chatbot`, it searched the documents before its verdict on a rumour, then wrote the verdict
+in French, to a question asked in English. It found the 4 pages of the wiki about Italy, and called the fire danger tool for Antwerp, which gave no level because its file had not been
+filled in that day.
 
 In the table of scores, two free models running at the same time ran into 429. A retry of
 `north-mini-code` alone failed too, with the day's quota already used up. Then each ran alone in mode
